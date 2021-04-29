@@ -86,11 +86,13 @@ const getAllBooksHandler = (request, h) => {
   const { name, reading, finished } = request.query
 
   if (name) {
+    const lowName = name.toLowerCase()
+
     const response = h.response({
       status: 'success',
       data: {
         books: bookselft
-          .filter((n) => n.name === name)
+          .filter((n) => n.name === lowName)
           .map((books) => ({
             id: books.id,
             name: books.name,
@@ -221,7 +223,7 @@ const editBooksHandler = (request, h) => {
   if (!name) {
     const response = h.response({
       status: 'fail',
-      message: 'Gaga memperbaharui buku. Mohon isi nama buku'
+      message: 'Gagal memperbarui buku. Mohon isi nama buku'
     })
     response.code(400)
     return response
@@ -231,7 +233,7 @@ const editBooksHandler = (request, h) => {
     const response = h.response({
       status: 'fail',
       message:
-        'Gagal memperbaharui buku. readPage tidak boleh lebih dari pageCount '
+        'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount'
     })
     response.code(400)
     return response
@@ -256,14 +258,14 @@ const editBooksHandler = (request, h) => {
     }
     const response = h.response({
       status: 'success',
-      message: 'Buku berhasil diperbaharui'
+      message: 'Buku berhasil diperbarui'
     })
     response.code(200)
     return response
   }
   const response = h.response({
     status: 'fail',
-    message: 'Gagal memperbaharui buku. Id tidak ditemukan'
+    message: 'Gagal memperbarui buku. Id tidak ditemukan'
   })
   response.code(404)
   return response
